@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Browse Events - Community Connect</title>
+<link rel="stylesheet" href="CSS/styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <div class="header-content">
+            <a href="index.html" class="logo">Community<span>Connect</span></a>
+            <nav class="desktop-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="events.html" class="active">Events</a></li>
+                    <li><a href="create-event.html">Create Event</a></li>
+                    <li><a href="my-events.html">My Events</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="icon-btn" aria-label="Notifications">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <button class="icon-btn theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-sun"></i>
+                </button>
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn primary-btn sign-in-btn">Sign In</a>
+                    <a href="register.html" class="btn outline-btn sign-up-btn">Sign Up</a>
+                    <a href="#" class="btn primary-btn logout-btn" style="display: none;">Logout</a>
+                </div>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <nav class="mobile-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html" class="active">Events</a></li>
+                <li><a href="create-event.html">Create Event</a></li>
+                <li><a href="my-events.html">My Events</a></li>
+                <li><a href="login.html" class="mobile-sign-in">Sign In</a></li>
+                <li><a href="register.html" class="mobile-sign-up">Sign Up</a></li>
+                <li><a href="#" class="mobile-logout" style="display: none;">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <div class="section-header" style="margin-top: 2rem;">
+            <h1>Browse Events</h1>
+            <div class="search-container">
+                <input type="text" placeholder="Search events..." id="search-input" class="search-input">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="category-filter">
+            <button class="filter-btn active" data-category="all">All</button>
+            <button class="filter-btn" data-category="Garage Sales">Garage Sales</button>
+            <button class="filter-btn" data-category="Sports Matches">Sports Matches</button>
+            <button class="filter-btn" data-category="Community Classes">Community Classes</button>
+            <button class="filter-btn" data-category="Volunteer">Volunteer Opportunities</button>
+            <button class="filter-btn" data-category="Exhibitions">Exhibitions</button>
+            <button class="filter-btn" data-category="Festivals">Festivals</button>
+        </div>
+
+        <div class="events-grid" id="events-grid">
+            <!-- Events will be loaded dynamically by JS -->
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i> Loading events...
+            </div>
+        </div>
+
+        <div id="no-events-message" style="text-align: center; padding: 2rem; display: none;">
+            <p>No events found matching your search.</p>
+        </div>
+
+        <div class="pagination">
+            <button class="pagination-btn" disabled>
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <button class="pagination-btn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>Community Connect</h3>
+                <p>Bringing communities together through local events and activities.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="events.html">Browse Events</a></li>
+                    <li><a href="create-event.html">Create Event</a></li>
+                    <li><a href="my-events.html">My Events</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="events.html?category=Garage+Sales">Garage Sales</a></li>
+                    <li><a href="events.html?category=Sports+Matches">Sports Matches</a></li>
+                    <li><a href="events.html?category=Community+Classes">Community Classes</a></li>
+                    <li><a href="events.html?category=Volunteer">Volunteer Opportunities</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li>support@communityconnect.com</li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Community Connect. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="JS/script.js"></script>
+<script src="JS/events.js"></script>
+</body>
+</html>
