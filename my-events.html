@@ -7,206 +7,166 @@
     <link rel="stylesheet" href="CSS/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Keep your existing .user-badge styles here if they are specific to this page's user profile */
+        .user-badge {
+            font-weight: bold;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            color: white;
+        }
+
+        .badge-bronze { background-color: #cd7f32; }
+        .badge-silver { background-color: #c0c0c0; color: black;} /* Added color: black for silver/gold/diamond for contrast */
+        .badge-gold { background-color: #ffd700; color: black;}
+        .badge-diamond { background-color: #b9f2ff; color: black;}
+        .badge-ruby { background-color: #e0115f; }
+
         .my-events-container {
             padding: 2rem 0;
         }
-        
+
         .tabs {
             display: flex;
             border-bottom: 1px solid var(--border-color);
             margin-bottom: 2rem;
             overflow-x: auto;
         }
-        
-        .tab {
+
+        .tab-button {
+            background-color: transparent;
+            border: none;
             padding: 1rem 1.5rem;
+            font-size: 1rem;
             font-weight: 500;
             color: var(--text-muted);
-            border-bottom: 2px solid transparent;
             cursor: pointer;
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
             white-space: nowrap;
         }
-        
-        .tab.active {
+
+        .tab-button:hover {
             color: var(--primary-color);
-            border-bottom-color: var(--primary-color);
         }
-        
+
+        .tab-button.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
         .tab-content {
             display: none;
         }
-        
+
         .tab-content.active {
             display: block;
         }
-        
-        .empty-state {
-            text-align: center;
-            padding: 3rem 0;
-        }
-        
-        .empty-state i {
-            font-size: 3rem;
-            color: var(--gray-400);
-            margin-bottom: 1rem;
-        }
-        
-        .empty-state h3 {
-            margin-bottom: 1rem;
-        }
-        
-        .empty-state p {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
-        
-        .event-list {
+
+        .events-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.5rem;
         }
-        
-        .event-item {
-            display: flex;
-            flex-direction: column;
+
+        .event-card {
+            background-color: var(--bg-color);
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius);
             overflow: hidden;
-            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease-in-out;
         }
-        
-        @media (min-width: 768px) {
-            .event-item {
-                flex-direction: row;
-            }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
         }
-        
-        .event-item-image {
+
+        .event-image {
             width: 100%;
-            height: 200px;
+            height: 180px;
             background-color: var(--bg-secondary);
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        
-        @media (min-width: 768px) {
-            .event-item-image {
-                width: 200px;
-                height: auto;
-                flex-shrink: 0;
-            }
-        }
-        
-        .event-item-image i {
-            font-size: 3rem;
+            font-size: 4rem;
             color: var(--gray-400);
         }
-        
-        .event-item-content {
-            padding: 1.5rem;
-            flex: 1;
+
+        .event-content {
+            padding: 1rem;
+            flex-grow: 1;
         }
-        
-        .event-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
+
+        .event-category {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
         }
-        
-        .event-item-title {
-            margin: 0;
+
+        .event-content h3 {
+            margin-bottom: 0.5rem;
             font-size: 1.25rem;
         }
-        
-        .event-status {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 9999px;
-        }
-        
-        .status-approved {
-            background-color: rgba(16, 185, 129, 0.1);
-            color: var(--success-color);
-        }
-        
-        .status-pending {
-            background-color: rgba(245, 158, 11, 0.1);
-            color: var(--warning-color);
-        }
-        
-        .status-draft {
-            background-color: rgba(107, 114, 128, 0.1);
+
+        .event-content p {
+            font-size: 0.9rem;
             color: var(--text-muted);
-        }
-        
-        .event-item-details {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
             margin-bottom: 1rem;
-            font-size: 0.875rem;
-            color: var(--text-muted);
+            line-height: 1.5;
         }
-        
-        .event-item-detail {
-            display: flex;
-            align-items: center;
-        }
-        
-        .event-item-detail i {
-            margin-right: 0.5rem;
-        }
-        
-        .event-item-description {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .event-item-actions {
+
+        .event-details {
             display: flex;
             flex-wrap: wrap;
             gap: 0.75rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
         }
-        
-        .stats-card {
+
+        .event-details .detail {
             display: flex;
             align-items: center;
-            padding: 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            margin-bottom: 1rem;
+            gap: 0.5rem;
         }
-        
-        .stats-icon {
-            width: 3rem;
-            height: 3rem;
-            border-radius: 50%;
-            background-color: rgba(79, 70, 229, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-        }
-        
-        .stats-icon i {
-            font-size: 1.5rem;
+
+        .event-details .detail i {
             color: var(--primary-color);
         }
-        
-        .stats-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.25rem;
+
+        .event-actions {
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
         }
-        
-        .stats-content p {
+
+        .event-actions .btn {
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .no-events-message {
+            text-align: center;
             color: var(--text-muted);
-            margin: 0;
+            padding: 2rem;
+            grid-column: 1 / -1; /* Span across all columns in grid */
+        }
+        .no-events-message a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .no-events-message a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -233,77 +193,43 @@
                     <div class="auth-buttons">
                         <a href="login.html" class="btn primary-btn sign-in-btn">Sign In</a>
                         <a href="register.html" class="btn outline-btn sign-up-btn">Sign Up</a>
-                        <a href="#" class="btn primary-btn logout-btn" style="display: none;">Logout</a>
+                        <button class="btn primary-btn logout-btn" style="display: none;">Log Out</button>
                     </div>
                 </div>
-                <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <button class="menu-toggle" aria-label="Toggle menu">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
-            <nav class="mobile-nav">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="events.html">Events</a></li>
-                    <li><a href="create-event.html">Create Event</a></li>
-                    <li><a href="my-events.html" class="active">My Events</a></li>
-                    <li><a href="login.html" class="mobile-sign-in">Sign In</a></li>
-                    <li><a href="register.html" class="mobile-sign-up">Sign Up</a></li>
-                    <li><a href="#" class="mobile-logout" style="display: none;">Logout</a></li>
-                </ul>
-            </nav>
         </div>
     </header>
 
-    <main>
+    <main class="main-content">
         <div class="container">
             <div class="my-events-container">
-                <div class="section-header">
-                    <h1>My Events</h1>
-                    <a href="create-event.html" class="btn primary-btn">
-                        <i class="fas fa-plus"></i>
-                        Create Event
-                    </a>
+                <div class="user-profile-summary form-card">
+                    <h2>Welcome, <span id="user-name"></span>!</h2>
+                    <p>Your Current Badge: <span id="user-badge" class="user-badge"></span></p>
                 </div>
-                
+
                 <div class="tabs">
-                    <div class="tab active" data-tab="organizing">Organizing (<span id="organizing-count">0</span>)</div>
-                    <div class="tab" data-tab="attending">Attending (<span id="attending-count">0</span>)</div>
-                    <div class="tab" data-tab="past">Past Events (<span id="past-count">0</span>)</div>
+                    <button class="tab-button active" data-tab="my-events-content">My Events</button>
+                    <button class="tab-button" data-tab="recommended-events-content">Recommended For You</button>
                 </div>
-                
-                <div class="tab-content active" id="organizing">
-                    <div class="event-list" id="organizing-list">
-                        <!-- Events will be loaded dynamically -->
-                        <div class="empty-state" id="organizing-empty" style="display: none;">
-                            <i class="fas fa-calendar-plus"></i>
-                            <h3>No events yet</h3>
-                            <p>You haven't created any events yet.</p>
-                            <a href="create-event.html" class="btn primary-btn">Create Event</a>
+
+                <div id="my-events-content" class="tab-content active">
+                    <h3>Events You Are Hosting</h3>
+                    <div id="user-events-grid" class="events-grid">
                         </div>
-                    </div>
+
+                    <h3 style="margin-top: 2rem;">Events You Are Attending</h3>
+                    <div id="rsvpd-events-grid" class="events-grid">
+                        </div>
                 </div>
-                
-                <div class="tab-content" id="attending">
-                    <div class="event-list" id="attending-list">
-                        <!-- Events will be loaded dynamically -->
-                        <div class="empty-state" id="attending-empty" style="display: none;">
-                            <i class="fas fa-calendar-days"></i>
-                            <h3>No events yet</h3>
-                            <p>You're not attending any upcoming events.</p>
-                            <a href="events.html" class="btn primary-btn">Browse Events</a>
+
+                <div id="recommended-events-content" class="tab-content">
+                    <h3>Events We Think You'll Love</h3>
+                    <div id="recommended-events-grid" class="events-grid">
                         </div>
-                    </div>
-                </div>
-                
-                <div class="tab-content" id="past">
-                    <div class="event-list" id="past-list">
-                        <!-- Events will be loaded dynamically -->
-                        <div class="empty-state" id="past-empty" style="display: none;">
-                            <i class="fas fa-calendar-week"></i>
-                            <h3>No past events</h3>
-                            <p>You don't have any past events.</p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -311,9 +237,9 @@
 
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid">
+            <div class="footer-content">
                 <div class="footer-col">
-                    <h3>Community Connect</h3>
+                    <h4>About Us</h4>
                     <p>Bringing communities together through local events and activities.</p>
                 </div>
                 <div class="footer-col">
@@ -349,160 +275,267 @@
     </footer>
 
     <script src="JS/script.js"></script>
+    <script src="JS/seedData.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is logged in, if not redirect to login
+            const user = JSON.parse(localStorage.getItem('user'));
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            if (!isLoggedIn) {
-                alert('Please login to view your events.');
-                window.location.href = 'login.html?redirect=my-events.html';
-                return;
+
+            // Redirect if not logged in
+            if (!isLoggedIn || !user) {
+                window.location.href = 'login.html';
+                return; // Stop further execution
             }
-            
-            // Get current user information
-            const user = JSON.parse(localStorage.getItem('user')) || {};
-            
-            // Load events
-            loadUserEvents();
-            
-            // Tab switching
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // Remove active class from all tabs and content
-                    tabs.forEach(t => t.classList.remove('active'));
-                    document.querySelectorAll('.tab-content').forEach(content => {
-                        content.classList.remove('active');
-                    });
-                    
-                    // Add active class to clicked tab and corresponding content
+
+            // Display user's name and badge
+            document.getElementById('user-name').textContent = user.name;
+            const userBadgeElement = document.getElementById('user-badge');
+            userBadgeElement.textContent = user.badge || 'None';
+            userBadgeElement.classList.add(`badge-${(user.badge || 'None').toLowerCase()}`);
+
+            // Tab functionality
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabId = this.dataset.tab;
+
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
                     this.classList.add('active');
-                    const tabName = this.dataset.tab;
-                    document.getElementById(tabName).classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+
+                    // Load content based on tab
+                    if (tabId === 'my-events-content') {
+                        loadUserEvents();
+                    } else if (tabId === 'recommended-events-content') {
+                        loadRecommendedEvents();
+                    }
                 });
             });
-            
+
+            // Initial load for the first active tab (e.g., My Events)
+            document.querySelector('.tab-button.active').click();
+
+
+            // Helper function to format date
+            function formatDate(dateString) {
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return new Date(dateString).toLocaleDateString(undefined, options);
+            }
+
+            // Function to load user's created and RSVP'd events
             function loadUserEvents() {
-                // Get all events from localStorage
-                const allEvents = JSON.parse(localStorage.getItem('events')) || [];
-                const currentDate = new Date();
-                
-                // Filter events by user and date
-                const userEmail = user.email;
-                
-                // Organizing: events created by the user with date >= current date
-                const organizingEvents = allEvents.filter(event => 
-                    event.creator && event.creator.id === userEmail && 
-                    new Date(event.date) >= currentDate
+                const allEvents = JSON.parse(localStorage.getItem('events')) || []; // These are events created/RSVP'd by users in the main app flow
+                const userEventsGrid = document.getElementById('user-events-grid');
+                const rsvpdEventsGrid = document.getElementById('rsvpd-events-grid');
+
+                const userCreatedEvents = allEvents.filter(event => event.creator && event.creator.id === user.email);
+                const userRsvpdEvents = allEvents.filter(event =>
+                    event.attendees && event.attendees.some(attendee => attendee.id === user.email) &&
+                    !(event.creator && event.creator.id === user.email) // Exclude if user is creator
                 );
-                
-                // Attending: events user is attending but did not create, with date >= current date
-                const attendingEvents = allEvents.filter(event => 
-                    event.attendees && 
-                    event.attendees.some(attendee => attendee.id === userEmail && !attendee.isCreator) &&
-                    new Date(event.date) >= currentDate
-                );
-                
-                // Past: events where user was organizing or attending with date < current date
-                const pastEvents = allEvents.filter(event => 
-                    ((event.creator && event.creator.id === userEmail) || 
-                    (event.attendees && event.attendees.some(attendee => attendee.id === userEmail))) &&
-                    new Date(event.date) < currentDate
-                );
-                
-                // Update counts
-                document.getElementById('organizing-count').textContent = organizingEvents.length;
-                document.getElementById('attending-count').textContent = attendingEvents.length;
-                document.getElementById('past-count').textContent = pastEvents.length;
-                
-                // Display events
-                displayEvents('organizing-list', 'organizing-empty', organizingEvents, true);
-                displayEvents('attending-list', 'attending-empty', attendingEvents);
-                displayEvents('past-list', 'past-empty', pastEvents);
-            }
-            
-            function displayEvents(listId, emptyId, events, isOrganizing = false) {
-                const listElement = document.getElementById(listId);
-                const emptyElement = document.getElementById(emptyId);
-                
-                // Clear existing events
-                listElement.innerHTML = '';
-                
-                // Show empty state if no events
-                if (!events || events.length === 0) {
-                    emptyElement.style.display = 'block';
-                    return;
+
+                displayEvents(userCreatedEvents, userEventsGrid, true); // true for showActions
+                displayEvents(userRsvpdEvents, rsvpdEventsGrid, false); // false for showActions (no delete for RSVP'd)
+
+                if (userCreatedEvents.length === 0) {
+                    userEventsGrid.innerHTML = '<p class="no-events-message">You haven\'t created any events yet. <a href="create-event.html">Create one!</a></p>';
                 }
-                
-                emptyElement.style.display = 'none';
-                
-                // Create event items
+                if (userRsvpdEvents.length === 0) {
+                    rsvpdEventsGrid.innerHTML = '<p class="no-events-message">You haven\'t RSVP\'d to any events yet. <a href="events.html">Browse events!</a></p>';
+                }
+            }
+
+
+            // --- ENHANCED RECOMMENDATION LOGIC (SIMULATING ML BEHAVIOR) ---
+            function loadRecommendedEvents() {
+                const allMockEvents = JSON.parse(localStorage.getItem('mockRecommendationEvents')) || [];
+                const mockRecommendationUsers = JSON.parse(localStorage.getItem('mockRecommendedUsers')) || [];
+                const recommendedEventsGrid = document.getElementById('recommended-events-grid');
+
+                const currentUserMockData = mockRecommendationUsers.find(u => u.email === user.email);
+
+                let recommendations = [];
+                let candidateEvents = [];
+
+                // Filter out events the user has already attended or created
+                candidateEvents = allMockEvents.filter(event => {
+                    const hasAttended = currentUserMockData && currentUserMockData.attendedEventIds.includes(event.id);
+                    const isCreator = event.creator && event.creator.id === user.email;
+                    return !hasAttended && !isCreator;
+                });
+
+                if (currentUserMockData && currentUserMockData.attendedEventIds.length > 0) {
+                    const userAttendedCategories = new Set();
+                    const userAttendedTags = new Set();
+
+                    // Collect categories and tags from attended events
+                    currentUserMockData.attendedEventIds.forEach(attendedEvtId => {
+                        const attendedEvent = allMockEvents.find(e => e.id === attendedEvtId);
+                        if (attendedEvent) {
+                            userAttendedCategories.add(attendedEvent.category.toLowerCase());
+                            if (attendedEvent.tags) {
+                                attendedEvent.tags.forEach(tag => userAttendedTags.add(tag.toLowerCase()));
+                            }
+                        }
+                    });
+
+                    // Score each candidate event based on user's interests, popularity, and recency
+                    const scoredEvents = candidateEvents.map(event => {
+                        let score = 0;
+
+                        // 1. Content-Based Score (matching categories and tags)
+                        if (event.category && userAttendedCategories.has(event.category.toLowerCase())) {
+                            score += 5; // Strong match for category
+                        }
+                        if (event.tags) {
+                            event.tags.forEach(tag => {
+                                if (userAttendedTags.has(tag.toLowerCase())) {
+                                    score += 2; // Weaker match for individual tags
+                                }
+                            });
+                        }
+
+                        // 2. Popularity Score (more attendees = higher score)
+                        // Assuming 'attendees' array in mockRecommendationEvents represents popularity
+                        const popularityFactor = event.attendees ? event.attendees.length : 0;
+                        score += popularityFactor * 0.5; // Each attendee adds 0.5 to score
+
+                        // 3. Recency/Upcoming Score (closer dates get higher score)
+                        const eventDate = new Date(event.date);
+                        const today = new Date();
+                        const diffTime = eventDate.getTime() - today.getTime();
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                        if (diffDays >= 0) { // Only score upcoming events
+                            score += Math.max(0, 30 - diffDays); // Events happening within 30 days get higher scores
+                        } else {
+                            score -= 10; // Penalize past events heavily
+                        }
+
+                        // Introduce a small random component to break ties and add variety (mimics exploration)
+                        score += Math.random() * 0.1;
+
+                        return { event, score };
+                    });
+
+                    // Sort by score in descending order
+                    scoredEvents.sort((a, b) => b.score - a.score);
+
+                    // Take the top recommended events
+                    recommendations = scoredEvents.map(item => item.event);
+
+                    // Ensure at least 5 recommendations, fallback to popular/upcoming if needed
+                    if (recommendations.length < 5 && allMockEvents.length > 0) {
+                        const popularUpcomingFallback = allMockEvents
+                            .filter(event => !currentUserMockData.attendedEventIds.includes(event.id) && !(event.creator && event.creator.id === user.email))
+                            .sort((a, b) => {
+                                // Sort by number of attendees (desc) then by date (asc)
+                                const aPopularity = a.attendees ? a.attendees.length : 0;
+                                const bPopularity = b.attendees ? b.attendees.length : 0;
+                                if (bPopularity !== aPopularity) return bPopularity - aPopularity;
+                                return new Date(a.date) - new Date(b.date);
+                            })
+                            .slice(0, 10); // Grab a few more to filter out duplicates
+
+                        // Add unique fallback events until we reach desired number
+                        const currentRecommendedIds = new Set(recommendations.map(e => e.id));
+                        for (const event of popularUpcomingFallback) {
+                            if (!currentRecommendedIds.has(event.id) && recommendations.length < 10) { // Limit to 10 overall recommendations
+                                recommendations.push(event);
+                                currentRecommendedIds.add(event.id);
+                            }
+                        }
+                    }
+
+                } else {
+                    // If user has no attended events in mock data, show popular and upcoming events as default
+                    console.log("No attended events for this user in mock data. Showing popular and upcoming events.");
+                    recommendations = candidateEvents
+                        .sort((a, b) => {
+                            const aPopularity = a.attendees ? a.attendees.length : 0;
+                            const bPopularity = b.attendees ? b.attendees.length : 0;
+                            if (bPopularity !== aPopularity) return bPopularity - aPopularity;
+                            return new Date(a.date) - new Date(b.date);
+                        })
+                        .slice(0, 10); // Show top 10 popular/upcoming
+                }
+
+                // Display only the first 5-10 recommendations, or adjust as needed
+                displayEvents(recommendations.slice(0, 10), recommendedEventsGrid, false); // Display top 10, no actions like edit/delete
+
+                if (recommendations.length === 0) {
+                    recommendedEventsGrid.innerHTML = '<p class="no-events-message">No recommendations for you right now. Try attending more events to get personalized suggestions, or browse all events to find something new! <a href="events.html">Browse events!</a></p>';
+                }
+            }
+            // --- END OF ENHANCED RECOMMENDATION LOGIC ---
+
+
+            // Function to display events in a given grid
+            function displayEvents(events, eventsGrid, showActions = false) {
+                if (!eventsGrid) return; // Guard clause
+
+                eventsGrid.innerHTML = ''; // Clear previous content
+
                 events.forEach(event => {
-                    const eventItem = createEventItem(event, isOrganizing);
-                    listElement.appendChild(eventItem);
+                    const eventItem = createEventCard(event, showActions);
+                    eventsGrid.appendChild(eventItem);
                 });
             }
-            
-            function createEventItem(event, canDelete = false) {
+
+            // Function to create a single event card element
+            function createEventCard(event, showActions) {
                 const eventItem = document.createElement('div');
-                eventItem.className = 'event-item';
-                eventItem.dataset.id = event.id;
-                
-                const eventDate = new Date(event.date);
-                const formattedDate = eventDate.toLocaleDateString('en-US', { 
-                    weekday: 'long', 
-                    month: 'long', 
-                    day: 'numeric', 
-                    year: 'numeric' 
-                });
-                
-                let actionButtons = `<a href="event-details.html?id=${event.id}" class="btn outline-btn">View Details</a>`;
-                
-                if (canDelete) {
-                    actionButtons += `
-                        <a href="event-edit.html?id=${event.id}" class="btn outline-btn">Edit</a>
-                        <button class="btn secondary-btn delete-event-btn" data-id="${event.id}">Delete Event</button>
-                    `;
-                }
-                
+                eventItem.classList.add('event-card');
+
+                const formattedDate = formatDate(event.date);
+                const attendeesCount = event.attendees ? event.attendees.length : 0;
+
                 eventItem.innerHTML = `
-                    <div class="event-item-image">
-                        <i class="fas fa-calendar-days"></i>
+                    <div class="event-image">
+                        <i class="fas fa-image"></i>
                     </div>
-                    <div class="event-item-content">
-                        <div class="event-item-header">
-                            <h3 class="event-item-title">${event.title}</h3>
-                            <span class="event-status status-approved">Active</span>
-                        </div>
-                        <div class="event-item-details">
-                            <span class="event-item-detail">
+                    <div class="event-content">
+                        <span class="event-category">${event.category || 'Uncategorized'}</span>
+                        <h3>${event.title}</h3>
+                        <p>${event.description}</p>
+                        <div class="event-details">
+                            <div class="detail">
                                 <i class="fas fa-calendar-days"></i>
-                                ${formattedDate}
-                            </span>
-                            <span class="event-item-detail">
+                                <span>${formattedDate}</span>
+                            </div>
+                            <div class="detail">
                                 <i class="fas fa-clock"></i>
-                                ${event.time}${event.endTime ? ' - ' + event.endTime : ''}
-                            </span>
-                            <span class="event-item-detail">
+                                <span>${event.time || 'TBD'}</span>
+                            </div>
+                            <div class="detail">
                                 <i class="fas fa-map-marker-alt"></i>
-                                ${event.location}
-                            </span>
-                            <span class="event-item-detail">
+                                <span>${event.location || 'TBD'}</span>
+                            </div>
+                            <div class="detail">
                                 <i class="fas fa-users"></i>
-                                ${event.attending || 0} attending
-                            </span>
+                                <span>${attendeesCount} attending</span>
+                            </div>
                         </div>
-                        <p class="event-item-description">${event.description}</p>
-                        <div class="event-item-actions">
-                            ${actionButtons}
-                        </div>
+                    </div>
+                    <div class="event-actions">
+                        <a href="event-details.html?id=${event.id}" class="btn outline-btn">View Details</a>
+                        ${showActions ? `
+                            <a href="create-event.html?id=${event.id}" class="btn secondary-btn">Edit</a>
+                            <button class="btn danger-btn delete-event-btn" data-id="${event.id}">Delete</button>
+                        ` : `
+                            <a href="event-rsvp.html?id=${event.id}" class="btn primary-btn">RSVP</a>
+                        `}
                     </div>
                 `;
-                
-                // Add event listener for delete button
-                if (canDelete) {
-                    const deleteBtn = eventItem.querySelector('.delete-event-btn');
-                    deleteBtn.addEventListener('click', function() {
+
+                if (showActions) {
+                    const deleteButton = eventItem.querySelector('.delete-event-btn');
+                    deleteButton.addEventListener('click', function() {
                         const eventId = this.dataset.id;
                         if (confirm('Are you sure you want to delete this event?')) {
                             deleteEvent(eventId);
