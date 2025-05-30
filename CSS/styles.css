@@ -757,6 +757,34 @@ p {
   color: var(--text-muted);
 }
 
+/* Host Badges */
+.host-badge { /* This applies to the div wrapping the badge */
+  position: absolute; /* To position it within the event-image */
+  top: 10px;
+  left: 10px;
+  font-weight: bold;
+  font-size: 0.8rem; /* Slightly smaller for event cards */
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px; /* Slightly less rounded */
+  display: inline-flex; /* Use flex to align icon and text */
+  align-items: center;
+  gap: 5px; /* Space between icon and text */
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* For better readability on light badges */
+  z-index: 10; /* Ensure it's above the image */
+}
+
+/* Specific badge colors - ensure these match your ENUM values */
+.badge-none { /* Good to have a 'None' style if it's rendered, though it won't show */
+    background-color: var(--gray-400);
+    color: var(--text-color);
+}
+.badge-bronze { background-color: #cd7f32; } /* Bronze */
+.badge-silver { background-color: #c0c0c0; color: #333; } /* Silver - black text for contrast */
+.badge-gold { background-color: #ffd700; color: #333; } /* Gold - black text for contrast */
+.badge-diamond { background-color: #b9f2ff; color: #333; } /* Diamond - black text for contrast */
+.badge-ruby { background-color: #e0115f; } /* Ruby */
+
 /* Avatar */
 .avatar {
   width: 2.5rem;
@@ -782,3 +810,17 @@ p {
   white-space: nowrap;
   border-width: 0;
 }
+.badge {
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-weight: bold;
+  color: white;
+  display: inline-block;
+  font-size: 0.85em;
+}
+
+.badge.bronze { background-color: #cd7f32; }
+.badge.silver { background-color: #c0c0c0; }
+.badge.gold   { background-color: #ffd700; color: black; }
+.badge.diamond { background-color: #b9f2ff; color: black; }
+.badge.ruby    { background-color: #e0115f; }
