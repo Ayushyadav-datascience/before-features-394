@@ -389,7 +389,17 @@
 
     <script src="JS/script.js"></script>
     <script>
+        function getBadgeByEventCount(count) {
+        if (count >= 200) return 'Ruby';
+        if (count >= 100) return 'Diamond';
+        if (count >= 50) return 'Gold';
+        if (count >= 25) return 'Silver';
+        if (count >= 10) return 'Bronze';
+        return 'None';
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            
             // Check if user is logged in, if not redirect to login
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
             if (!isLoggedIn) {
@@ -483,6 +493,13 @@
                     
                     // Save event to localStorage
                     const events = JSON.parse(localStorage.getItem('events')) || [];
+                    // Count how many events this user has hosted
+                    const hostedCount = events.filter(ev => ev.creator?.id === user.email).length + 1; // +1 for this new event
+                    const newBadge = getBadgeByEventCount(hostedCount);
+                    // Update user object and store it back
+                    user.badge = newBadge;
+                    localStorage.setItem('user', JSON.stringify(user));
+
                     events.push(newEvent);
                     localStorage.setItem('events', JSON.stringify(events));
                     
